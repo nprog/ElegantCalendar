@@ -7,6 +7,8 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     @Environment(\.calendarTheme) var theme: CalendarTheme
 
     @ObservedObject var calendarManager: MonthlyCalendarManager
+    
+    let weekday: [String] = ["日","一","二","三","四","五","六"]
 
     let month: Date
 
@@ -55,17 +57,15 @@ private extension MonthView {
     }
 
     var monthText: some View {
-        Text(month.fullMonth.uppercased())
+        Text(month.fullMonth)
             .font(.system(size: 26))
             .bold()
-            .tracking(7)
             .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
     }
 
     var yearText: some View {
         Text(month.year)
             .font(.system(size: 12))
-            .tracking(2)
             .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .gray)
             .opacity(0.95)
     }
@@ -83,7 +83,7 @@ private extension MonthView {
 
     var daysOfWeekHeader: some View {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
-            ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
+            ForEach(weekday, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
                     .font(.caption)
                     .frame(width: CalendarConstants.Monthly.dayWidth)
@@ -128,7 +128,7 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
     var body: some View {
         VStack {
-            selectedDayInformationView
+//            selectedDayInformationView
             GeometryReader { geometry in
                 self.datasource?.calendar(viewForSelectedDate: self.selectedDate!,
                                           dimensions: geometry.size)

@@ -13,7 +13,15 @@ extension Date {
     }
 
     var fullMonth: String {
-        DateFormatter.fullMonth.string(from: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M月"
+        return dateFormatter.string(from: self)
+    }
+    
+    var fullMonthZH: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM月"
+        return dateFormatter.string(from: self)
     }
 
     var timeOnlyWithPadding: String {
